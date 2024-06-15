@@ -78,7 +78,7 @@ export default function App() {
     // If something goes wrong, check the status of the response:
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
-    setMessage('')
+    
     setSpinnerOn(true)
 
     const token = localStorage.getItem('token')
@@ -130,13 +130,12 @@ export default function App() {
     .then((data) => {
       setArticles((prevArticles) => [...prevArticles, data.article])
       setMessage(data.message)
-      
     })
     .catch((err) => {
       console.error(err)
       setMessage(err.message)
     })
-    .finally(() => setSpinnerOn(false)) 
+    .finally(() => setSpinnerOn(false))
   }
 
   const updateArticle = ({ article_id, article }) => {
@@ -146,7 +145,34 @@ export default function App() {
 
   const deleteArticle = article_id => {
     // ✨ implement
-  }
+   
+    setMessage('')
+    fetch(`http://localhost:9000/api/articles/${article_id}` , {
+      method: 'DELETE',
+      headers: new Headers ({
+        'Content-Type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      })
+    })
+    .then(res => {
+      if(!res.ok) throw new Error ('Problem Deleting Article')
+      return res.json()
+    })
+  .then((data) => {
+    setMessage(data.message)
+    setArticles((prevArticles) => prevArticles.filter(article => article.id === article_id))
+  })
+    .catch((err) => {
+    console.error(err)
+    setMessage(err.message)
+  })
+    
+}
+
+
+
+  
+
 
 
   return (

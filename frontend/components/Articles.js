@@ -21,15 +21,11 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
     if (!token) {
       navigate('/')
     } else {
-      getArticles()
+      navigate('/articles')
     }
-  }, [navigate])
+  }, [])
 
 
-
-  //disabled={true} onClick={Function.prototype}
-
-  //console.log(articles)
 
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
