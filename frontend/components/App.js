@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom'
 import Articles from './Articles'
 import LoginForm from './LoginForm'
@@ -141,11 +141,13 @@ export default function App() {
   const updateArticle = ({ article_id, article }) => {
     // ✨ implement
     // You got this!
+    
   }
+  
 
   const deleteArticle = article_id => {
     // ✨ implement
-   
+    setSpinnerOn(true)
     setMessage('')
     fetch(`http://localhost:9000/api/articles/${article_id}` , {
       method: 'DELETE',
@@ -160,15 +162,20 @@ export default function App() {
     })
   .then((data) => {
     setMessage(data.message)
-    setArticles((prevArticles) => prevArticles.filter(article => article.id === article_id))
+    setArticles((prevArticles) => {
+      const updatedArticles = prevArticles.filter(article => article.article_id !== article_id)
+      console.log(updatedArticles)
+      return updatedArticles
   })
+})
     .catch((err) => {
     console.error(err)
     setMessage(err.message)
   })
-    
+  .finally(() => {
+    setSpinnerOn(false);
+  }) 
 }
-
 
 
   

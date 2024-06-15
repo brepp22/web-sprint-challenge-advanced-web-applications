@@ -14,7 +14,7 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
   //   // ✨ grab the articles here, on first render only
   //     getArticles()
     
-  // }, [getArticles])
+  // }, [])
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -23,7 +23,7 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
     } else {
       navigate('/articles')
     }
-  }, [])
+  }, [navigate])
 
 
 
