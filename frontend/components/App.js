@@ -57,8 +57,6 @@ export default function App() {
       })
       .then(data => {
         localStorage.setItem('token', data.token)
-        setMessage(`Here are your articles, ${username}!`)
-        console.log(message)
         redirectToArticles()
         getArticles()
       })
@@ -114,6 +112,31 @@ export default function App() {
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
     // to inspect the response from the server.
+    const token = localStorage.getItem('token')
+    setMessage('')
+    setSpinnerOn(true)
+    fetch( articlesUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : token
+      },
+      body: JSON.stringify(article)
+    })
+    .then(res => {
+      if(!res.ok) throw new Error ('Problem Posting Article')
+        return res.json()
+    })
+    .then((data) => {
+      setArticles((prevArticles) => [...prevArticles, data.article])
+      setMessage(data.message)
+      
+    })
+    .catch((err) => {
+      console.error(err)
+      setMessage(err.message)
+    })
+    .finally(() => setSpinnerOn(false)) 
   }
 
   const updateArticle = ({ article_id, article }) => {

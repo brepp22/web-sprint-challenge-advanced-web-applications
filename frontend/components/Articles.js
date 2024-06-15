@@ -20,6 +20,8 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
     const token = localStorage.getItem('token')
     if (!token) {
       navigate('/')
+    } else {
+      getArticles()
     }
   }, [navigate])
 
