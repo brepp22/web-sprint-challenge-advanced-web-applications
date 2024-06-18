@@ -143,7 +143,9 @@ export default function App() {
     // ✨ implement
     // You got this!
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:9000/api/articles/${article_id}`, {
+    setMessage('')
+    setSpinnerOn(true)
+  fetch(`http://localhost:9000/api/articles/${article_id}`, {
       method: 'PUT',
       body: JSON.stringify(article),
       headers: new Headers ({ 'Content-Type' : 'application/json' , Authorization: token})
@@ -154,15 +156,19 @@ export default function App() {
       
     })
       .then(data => {
-        article.article_id
-        console.log(data)
-        setMessage(data.message)
-   } )
-        
+        setArticles(prevArticles => {
+        return prevArticles.map(art =>
+        art.article_id === article_id ? data.article : art
+        )
+        })
+      console.log(data)
+       setMessage(data.message)
+   })
   .catch((err) => {
       console.error(err)
       setMessage(err.message)
   })
+  .finally(() => setSpinnerOn(false))
 }
   
 

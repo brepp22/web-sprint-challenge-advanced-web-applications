@@ -3,7 +3,7 @@ import PT from 'prop-types'
 
 const initialFormValues = { title: '', text: '', topic: '' }
 
-export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticleId, articles, article_id, setArticles }) {
+export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticleId, articles , getArticles }) {
   const [values, setValues] = useState(initialFormValues)
   // ✨ where are my props? Destructure them here
 
@@ -28,7 +28,9 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
       setValues(initialFormValues)
     }
   }, [currentArticleId, articles])
+  
 
+  
  
 
   const onChange = evt => {
@@ -49,6 +51,23 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
     setCurrentArticleId(null)
     setValues(initialFormValues)
   }
+
+// const onSubmit = async (evt) => {
+//   evt.preventDefault();
+//   try {
+//     if (currentArticleId) {
+//       await updateArticle({ article_id: currentArticleId.article_id, article: values })
+//     } else {
+//       await postArticle(values)
+//     }
+//     setCurrentArticleId(null)
+//     setValues(initialFormValues)
+//   } catch (error) {
+//     console.error('Error submitting article:', error)
+//   }
+// }
+
+
 
   const isDisabled = () => {
     // ✨ implement
@@ -85,7 +104,7 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={setCurrentArticleId}>Cancel edit</button>
+        <button onClick={Function.prototype}>Cancel edit</button>
       </div>
     </form>
   )
