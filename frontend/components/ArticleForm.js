@@ -3,38 +3,46 @@ import PT from 'prop-types'
 
 const initialFormValues = { title: '', text: '', topic: '' }
 
-export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticle}) {
+export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticleId, articles, article_id, setArticles }) {
   const [values, setValues] = useState(initialFormValues)
   // ✨ where are my props? Destructure them here
 
+  // useEffect(() => {
+  //   // ✨ implement
+  //   // Every time the `currentArticle` prop changes, we should check it for truthiness:
+  //   // if it's truthy, we should set its title, text and topic into the corresponding
+  //   // values of the form. If it's not, we should reset the form back to initial values.
+  
+
   useEffect(() => {
-    // ✨ implement
-    // Every time the `currentArticle` prop changes, we should check it for truthiness:
-    // if it's truthy, we should set its title, text and topic into the corresponding
-    // values of the form. If it's not, we should reset the form back to initial values.
-    if(currentArticle){
-      setValues({
-        title: currentArticle.title, 
-        text: currentArticle.text,
-        topic : currentArticle.topic
-      })
+    if (currentArticleId) {
+      const currentArticle = articles.find(article => article.article_id === currentArticleId)
+      if (currentArticle) {
+        setValues({
+          title: currentArticle.title,
+          text: currentArticle.text,
+          topic: currentArticle.topic,
+        })
+      }
     } else {
       setValues(initialFormValues)
     }
-  }, [currentArticle])
+  }, [currentArticleId, articles])
+
+ 
 
   const onChange = evt => {
     const { id, value } = evt.target
+    console.log(`Changing field: ${id}, New value: ${value}`)
     setValues({ ...values, [id]: value })
+    console.log('Updated form values:', { ...values, [id]: value })
   }
 
   const onSubmit = evt => {
-    evt.preventDefault()
-    // ✨ implement
-    // We must submit a new post or update an existing one,
-    // depending on the truthyness of the `currentArticle` prop.
-    if(currentArticle){
-      updateArticle(currentArticle.article_id, values)
+    evt.preventDefault();
+ if (currentArticleId) {
+  console.log('Submitting update with values:', values)
+      updateArticle({ article_id: currentArticleId, article: values })
     } else {
       postArticle(values)
     }
@@ -48,7 +56,7 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
     return !values.title || !values.text || !values.topic 
   }
 
-  const formValue = currentArticle ? 'Edit Article' : 'Create Article'
+  const formValue = currentArticleId ? 'Edit Article' : 'Create Article'
 
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
@@ -77,7 +85,7 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        <button onClick={setCurrentArticleId}>Cancel edit</button>
       </div>
     </form>
   )

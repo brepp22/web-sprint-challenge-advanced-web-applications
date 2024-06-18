@@ -16,6 +16,7 @@ export default function App() {
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
 
+
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
   const redirectToLogin = () => { navigate('/') }
@@ -141,8 +142,28 @@ export default function App() {
   const updateArticle = ({ article_id, article }) => {
     // ✨ implement
     // You got this!
-    
-  }
+    const token = localStorage.getItem('token')
+    fetch(`http://localhost:9000/api/articles/${article_id}`, {
+      method: 'PUT',
+      body: JSON.stringify(article),
+      headers: new Headers ({ 'Content-Type' : 'application/json' , Authorization: token})
+    })
+    .then(res => {
+      if(!res.ok) throw new Error ('Problem Putting Article')
+      return res.json()
+      
+    })
+      .then(data => {
+        article.article_id
+        console.log(data)
+        setMessage(data.message)
+   } )
+        
+  .catch((err) => {
+      console.error(err)
+      setMessage(err.message)
+  })
+}
   
 
   const deleteArticle = article_id => {
@@ -173,7 +194,7 @@ export default function App() {
     setMessage(err.message)
   })
   .finally(() => {
-    setSpinnerOn(false);
+    setSpinnerOn(false)
   }) 
 }
 
@@ -198,8 +219,8 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
-              <ArticleForm postArticle={postArticle} setCurrentArticleId={setCurrentArticleId} updateArticle={updateArticle}/>
-              <Articles articles = {articles} getArticles={getArticles} deleteArticle={deleteArticle} setCurrentArticleId={setCurrentArticleId}/>
+              <ArticleForm postArticle={postArticle} setCurrentArticleId={setCurrentArticleId} updateArticle={updateArticle} articles={articles} currentArticleId={currentArticleId}/>
+              <Articles setCurrentArticleId ={setCurrentArticleId} articles = {articles} getArticles={getArticles} deleteArticle={deleteArticle} updateArticle={updateArticle} currentArticleId={currentArticleId}/>
             </>
           } />
         </Routes>

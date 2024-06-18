@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PT from 'prop-types'
 
-export default function Articles({ articles, getArticles, deleteArticle, setCurrentArticleId }) {
+
+export default function Articles({ setValues, articles, getArticles, deleteArticle, setCurrentArticleId, updateArticle }) {
   // ✨ where are my props? Destructure them here
 
   // ✨ implement conditional logic: if no token exists
@@ -10,11 +11,11 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
 
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   // ✨ grab the articles here, on first render only
-  //     getArticles()
+  useEffect(() => {
+    // ✨ grab the articles here, on first render only
+      getArticles()
     
-  // }, [])
+  }, [])
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -24,7 +25,6 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
       navigate('/articles')
     }
   }, [navigate])
-
 
 
   return (
@@ -44,7 +44,13 @@ export default function Articles({ articles, getArticles, deleteArticle, setCurr
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                  <button onClick = {() => setCurrentArticleId(art.article_id)}>Edit</button>
+                  <button onClick = {() => {
+                    console.log(`Editing article with ID: ${art.article_id}`)
+                    setCurrentArticleId(art.article_id)
+                    const updatedArticle = { ...art }
+                    console.log(updatedArticle)
+                    updateArticle({ article_id: art.article_id, article: updatedArticle})
+                   }} >Edit</button>
                   <button onClick = {() => deleteArticle(art.article_id)}>Delete</button>
                 </div>
               </div>
