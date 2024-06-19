@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState  } from 'react'
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom'
 import Articles from './Articles'
 import LoginForm from './LoginForm'
@@ -226,7 +226,7 @@ export default function App() {
           <Route path="articles" element={
             <>
               <ArticleForm postArticle={postArticle} setCurrentArticleId={setCurrentArticleId} updateArticle={updateArticle} articles={articles} currentArticleId={currentArticleId}/>
-              <Articles setCurrentArticleId ={setCurrentArticleId} articles = {articles} getArticles={getArticles} deleteArticle={deleteArticle} updateArticle={updateArticle} currentArticleId={currentArticleId}/>
+              <Articles setCurrentArticleId ={setCurrentArticleId} articles = {articles} getArticles={getArticles} deleteArticle={deleteArticle} updateArticle={updateArticle} />
             </>
           } />
         </Routes>

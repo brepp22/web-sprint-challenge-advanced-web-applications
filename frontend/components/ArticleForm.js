@@ -3,7 +3,7 @@ import PT from 'prop-types'
 
 const initialFormValues = { title: '', text: '', topic: '' }
 
-export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticleId, articles , getArticles }) {
+export default function ArticleForm({postArticle, updateArticle, setCurrentArticleId, currentArticleId, articles }) {
   const [values, setValues] = useState(initialFormValues)
   // ✨ where are my props? Destructure them here
 
@@ -51,23 +51,6 @@ export default function ArticleForm({postArticle, updateArticle, setCurrentArtic
     setCurrentArticleId(null)
     setValues(initialFormValues)
   }
-
-// const onSubmit = async (evt) => {
-//   evt.preventDefault();
-//   try {
-//     if (currentArticleId) {
-//       await updateArticle({ article_id: currentArticleId.article_id, article: values })
-//     } else {
-//       await postArticle(values)
-//     }
-//     setCurrentArticleId(null)
-//     setValues(initialFormValues)
-//   } catch (error) {
-//     console.error('Error submitting article:', error)
-//   }
-// }
-
-
 
   const isDisabled = () => {
     // ✨ implement

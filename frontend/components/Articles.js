@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import PT from 'prop-types'
 
 
-export default function Articles({ setValues, articles, getArticles, deleteArticle, setCurrentArticleId, updateArticle, currentArticleId }) {
+export default function Articles({  articles, getArticles, deleteArticle, setCurrentArticleId }) {
   // ✨ where are my props? Destructure them here
 
   // ✨ implement conditional logic: if no token exists
@@ -45,7 +45,7 @@ export default function Articles({ setValues, articles, getArticles, deleteArtic
                 </div>
                 <div>
                   <button onClick = {() => {
-                    console.log(`Editing article with ID: ${art.article_id}`)
+                    //console.log(`Editing article with ID: ${art.article_id}`)
                     setCurrentArticleId(art.article_id)}} >Edit</button>
                   <button onClick = {() => deleteArticle(art.article_id)}>Delete</button>
                 </div>
